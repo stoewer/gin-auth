@@ -7,7 +7,7 @@ GIN-Auth API
 #### 1. Request access
 
 The client should redirect the browser (302 moved temporarily) to the following URL
-with the parameters listed below.
+with the parameters listed below:
 
 ##### URL
 
@@ -21,7 +21,7 @@ GET https://<host>/oauth/authorize
 | ------------- | ------- | ---- |
 | response_type | string  | Must be set to `code` |
 | client_id     | string  | The ID of a registered client |
-| redirect_uri  | string  | URL to redirect to after authorization |
+| redirect_uri  | string  | URL to redirect to after authentication and approval |
 | scope         | string  | Comma separated list of scopes |
 | state         | string  | Random string to protect against CSRF |
 
@@ -42,7 +42,7 @@ Redirect the browser (302 moved temporarily) to the [login page](#login-page) us
 
 If the authentication and approval was successful the response is a redirect (302) to the requested `redirect_uri`
 containing the parameters `code`, `scope` and `state`.
-In the next step the access code can be used to obtain an access token.
+In the next step the access code can be used **once** to obtain an access token.
 
 ##### URL
 
@@ -123,7 +123,7 @@ POST https://<host>/oauth/token
 | Name           | Value |
 | -------------- | --- |
 | Authorization  | Basic <username:password> |
-| X-OAuth-Scopes | <list-of-scopes> |
+| X-OAuth-Scopes | \<list-of-scopes\> |
 
 ###### Error
 
@@ -194,10 +194,10 @@ Show the form again if the credentials are not correct.
 
 If the parameters are accepted the response issues a session cookie called `session`.
 
-If the user has already approved the client with all requested scopes the browser is redirected to the `redirect_uri`
+If the user has already approved the client with all requested scopes, the browser is redirected to the `redirect_uri`
 associated with the respective request.
 If the grant request type was code the redirect URL contains the parameters `code`, `scope` and `state`.
-In case of an implicit grant request the redirect uri contains the parameters `access_token` and `token_type`.
+In case of an implicit grant request the redirect uri contains the parameters `access_token`, `token_type`, `scope` and `state`.
 
 If the user has not approved one of the requested scopes for this client before the browser is redirected to
 the [approve page](#approve-page).

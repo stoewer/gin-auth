@@ -1,0 +1,135 @@
+---
+layout: default
+title: GIN-Auth API reference
+active: api
+---
+<h1>{{ page.title }}</h1>
+{% for api in site.http_api %}
+<div id="{{ api.title | slugify }}">
+    <h2>{{ api.title }}</h2>
+    <p>
+        {{ api.content }}
+    </p>
+    <div>
+    {% for req in api.requests %}
+        <div id="{{ req.title | slugify }}">
+            <h3>{{ req.title }}</h3>
+            {% if req.description %}
+                {{ req.description  | markdownify }}
+            {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div><b>{{ req.method }}:</b> <i>{{ req.url | escape }}</i></div>
+                </div>
+                <ul class="list-group panel-body">
+                    {% if req.header %}
+                    <li class="list-group-item">
+                        <h5>Header</h5>
+                        <ul class="list-unstyled">
+                        {% for p in req.header %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if req.parameter %}
+                    <li class="list-group-item">
+                        <h5>Parameter</h5>
+                        <ul class="list-unstyled">
+                            {% for p in req.parameter %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <h4>Responses</h4>
+            {% for res in req.response %}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div><b>{{ res.status_code }}</b></div>
+                </div>
+                <ul class="list-group panel-body">
+                    {% if res.header %}
+                    <li class="list-group-item">
+                        <h5>Header</h5>
+                        <ul class="list-unstyled">
+                            {% for p in res.header %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if res.parameter %}
+                    <li class="list-group-item">
+                        <h5>Parameter</h5>
+                        <ul class="list-unstyled">
+                            {% for p in res.parameter %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if res.body %}
+                    <li class="list-group-item">
+                        <h5>Body</h5>
+                        {{ res.body |  markdownify }}
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endfor %}
+            {% if req.error %}
+
+            <h4>Errors</h4>
+            {% for err in req.error %}
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div><b>{{ err.status_code }}</b></div>
+                    {% if err.conditions %}
+                    The error occurs if:
+                    <ul>
+                        {% for cond in err.conditions %}
+                        <li>{{ cond | escape }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <ul class="list-group panel-body">
+                    {% if err.header %}
+                    <li class="list-group-item">
+                        <h5>Header</h5>
+                        <ul class="list-unstyled">
+                            {% for p in err.header %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if err.parameter %}
+                    <li class="list-group-item">
+                        <h5>Parameter</h5>
+                        <ul class="list-unstyled">
+                            {% for p in err.parameter %}
+                            <li><b>{{ p[0] }}:</b> {{ p[1] | escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if err.body %}
+                    <li class="list-group-item">
+                        <h5>Body</h5>
+                        {{ err.body |  markdownify }}
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endfor %}

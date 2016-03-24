@@ -29,3 +29,9 @@ _testmain.go
 
 # Temp
 *~
+
+# Jekyll
+
+_site
+.sass-cache
+.jekyll-metadata
